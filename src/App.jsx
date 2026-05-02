@@ -2,7 +2,7 @@ import { useState } from "react";
 import GeneralInfo from "./components/GeneralInfo";
 import Education from "./components/Education";
 import Experience from "./components/Experience";
-import Preview from "./components/Preview";
+import Preview from "./components/preview";
 import "./styles/app.css";
 
 function App() {
@@ -44,7 +44,10 @@ function App() {
           education={education}
           experience={experience}
         />
+
+        
       </div>
+      
     </div>
   );
 }
