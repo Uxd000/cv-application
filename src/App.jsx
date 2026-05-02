@@ -1,52 +1,50 @@
 import { useState } from "react";
-import Preview from "./components/preview";
 import GeneralInfo from "./components/GeneralInfo";
 import Education from "./components/Education";
 import Experience from "./components/Experience";
+import Preview from "./components/Preview";
+import "./styles/app.css";
 
 function App() {
-
-  const [generalInfo,setGeneralInfo]=useState({
-    name:"",
-    email:"",
-    phone:"",
+  const [generalInfo, setGeneralInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
   });
 
-  const [education,setEducation]=useState({
-    schName:"",
-    degree:"",
-    year:"",
+  const [education, setEducation] = useState({
+    schName: "",
+    degree: "",
+    year: "",
   });
 
-/*Adding multiple experiences for workaholic nerds*/
+  const [experience, setExperience] = useState([]);
 
-const [experience, setExperience] = useState([]);
-
+  function addExperience(newExp) {
+    setExperience([...experience, newExp]);
+  }
 
   return (
-    <div>
-      <h1>CV Application</h1>
-      <GeneralInfo 
-        data={generalInfo}
-        setData={setGeneralInfo}
-      />
+    <div className="container">
+      <div className="form-section">
+        <h1>CV Application</h1>
 
-      <Education 
-        data={education}
-        setData={setEducation}
-      />
+        <GeneralInfo data={generalInfo} setData={setGeneralInfo} />
+        <Education data={education} setData={setEducation} />
 
-      <Experience 
-        data={experience}
-        setData={setExperience}
-      />
+        <Experience
+          addExperience={addExperience}
+          experience={experience}
+        />
+      </div>
 
-      <Preview
-        generalInfo={generalInfo}
-        education={education}
-        experience={experience}
-      />
-
+      <div className="preview-section">
+        <Preview
+          generalInfo={generalInfo}
+          education={education}
+          experience={experience}
+        />
+      </div>
     </div>
   );
 }

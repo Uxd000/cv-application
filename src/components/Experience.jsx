@@ -1,88 +1,73 @@
 import { useState } from "react";
 
-export default function Experience({ data, setData }) {
-  const [isEditing, setIsEditing] = useState(true);
+export default function Experience({ addExperience, experience }) {
+  const [form, setForm] = useState({
+    company: "",
+    role: "",
+    responsibilities: "",
+  });
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setData({ ...data, [name]: value });
+    setForm({ ...form, [name]: value });
   }
 
   function handleSubmit() {
-    setIsEditing(false);
-  }
+    if (!form.company || !form.role) return;
 
-  function handleEdit() {
-    setIsEditing(true);
+    addExperience(form);
+
+    setForm({
+      company: "",
+      role: "",
+      responsibilities: "",
+    });
   }
 
   return (
     <div className="card">
-      <div className="card-header">
-        <h2 className="card-title">Experience</h2>
-        {!isEditing && (
-          <button className="btn btn-ghost" onClick={handleEdit}>
-            Edit
-          </button>
-        )}
+      <h2>Experience</h2>
+
+      <div className="form-body">
+        <input
+          name="company"
+          placeholder="Company"
+          value={form.company}
+          onChange={handleChange}
+        />
+
+        <input
+          name="role"
+          placeholder="Role"
+          value={form.role}
+          onChange={handleChange}
+        />
+
+        <textarea
+          name="responsibilities"
+          placeholder="Responsibilities"
+          value={form.responsibilities}
+          onChange={handleChange}
+        />
+
+        <button onClick={handleSubmit}>Add Experience</button>
       </div>
 
-      {isEditing ? (
-        <div className="form-body">
-          <div className="form-group">
-            <label className="form-label">Company</label>
-            <input
-              className="form-input"
-              name="company"
-              placeholder="e.g. Acme Corp"
-              value={data.company}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Role</label>
-            <input
-              className="form-input"
-              name="role"
-              placeholder="e.g. Frontend Developer"
-              value={data.role}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Responsibilities</label>
-            <textarea
-              className="form-textarea"
-              name="responsibilities"
-              placeholder="Describe your key responsibilities..."
-              value={data.responsibilities}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-actions">
-            <button className="btn btn-primary" onClick={handleSubmit}>
-              Save
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="display-body">
-          <div className="display-row">
-            <span className="display-label">Company</span>
-            <span className="display-value">{data.company}</span>
-          </div>
-          <div className="display-row">
-            <span className="display-label">Role</span>
-            <span className="display-value">{data.role}</span>
-          </div>
-          <div className="display-row">
-            <span className="display-label">Responsibilities</span>
-            <span className="display-value display-value--block">
-              {data.responsibilities}
-            </span>
-          </div>
-        </div>
-      )}
+      <div className="list">
+        <h3>Added Experiences</h3>
+
+        {experience.length === 0 ? (
+          <p>No experience added</p>
+        ) : (
+          experience.map((exp, index) => (
+            <div key={index} className="list-item">
+              <strong>{exp.company}</strong>
+              <p>{exp.role}</p>
+              <p>{exp.responsibilities}</p>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }
